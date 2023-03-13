@@ -2,11 +2,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name = "Tests suit" thread-count="1" verbose="1" annotations="JDK" parallel="tests">
-<!--    <test name = "All messages test">-->
-<!--        <parameter name="test_file" value="src/test/resources/all_msg_testdata.json" />-->
-<!--        <parameter name="statusCode" value="200"/>-->
-<!--        <classes>-->
-<!--            <class name = "project.testcases.GetAllMessagesTest"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name = "VK API test">
+        <parameter name="test_file" value="src/test/resources/test_data.json" />
+        <classes>
+            <class name = "project.testcase.VkWallTest"/>
+        </classes>
+    </test>
 </suite>

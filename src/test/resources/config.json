@@ -1,0 +1,12 @@
+{
+  "url": "https://vk.com/",
+  "vkToken": "vk1.a._q1i35jEU4fPqjkbwQRc-Bjmq6z0kZ7W_36OkStTa_iZcthlGb2nijpsJ_9-2LJWYs-L4GvihaRrGJ3-wNYivODNQVmuOo1q_-GmoennhGGBuA97w5-AePL7vv40RFDuMYFbk6bIgwh6ItoxJSKG2604dytPO5FfOHwHNB7nn6Sssco0kK3xpPM03MaUX55vuKgcJXo2F1ja2G6qCVF7oA",
+  "wallPostRequest": "https://api.vkontakte.ru/method/wall.post?owner_id=%1$s&access_token=%2$s&message=%3$s&v=5.131",
+  "wallPhotosServer": "https://api.vkontakte.ru/method/photos.getWallUploadServer?access_token=%s&v=5.131",
+  "addPostComment": "https://api.vk.com/method/wall.createComment?owner_id=%1$s&access_token=%2$s&post_id=%3$s&message=%4$s&v=5.131",
+  "saveFileOnServerRequest": "https://api.vk.com/method/photos.saveWallPhoto?access_token=%1$s&server=%2$s&hash=%3$s&v=5.131",
+  "editPostRequest": "https://api.vk.com/method/wall.edit?access_token=%1$s&owner_id=%2$s&post_id=%3$s&message=%4$s&attachment=%5$s&v=5.131",
+  "isLikedRequest": "https://api.vk.com/method/likes.isLiked?access_token=%1$s&user_id=%2$s&type=%3$s&owner_id=%4$s&item_id=%5$s&v=5.131",
+  "deletePostRequest": "https://api.vk.com/method/wall.delete?access_token=%1$s&owner_id=%2$s&post_id=%3$s&v=5.131",
+  "deletePhotoRequest": "https://api.vk.com/method/photos.delete?access_token=%1$s&owner_id=%2$s&photo_id=%3$s&v=5.131"
+}
