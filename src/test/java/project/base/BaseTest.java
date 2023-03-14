@@ -5,7 +5,7 @@ import aquality.selenium.browser.Browser;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import universaltools.ConfigUtil;
+import restframework.universalutils.ConfigUtil;
 
 /**
  * @author Pavel Romanov 09.03.2023

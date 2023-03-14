@@ -1,68 +1,67 @@
 package project.testcase;
 
-import org.testng.Assert;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
-import project.apiutil.VkApiUtils;
+import project.apiutil.ProjectVkApiUtil;
 import project.base.BaseTest;
-import project.pageobjects.EmailPage;
-import project.pageobjects.FeedPage;
-import project.pageobjects.PasswordPage;
-import project.pageobjects.ProfilePage;
-import universaltools.ConfigUtil;
-import universaltools.DataGeneratorUtil;
-import universaltools.DataProviderUtil;
+import project.testcase.steps.VkTestSteps;
+import restframework.universalutils.DataGeneratorUtil;
+import restframework.universalutils.DataProviderUtil;
 
 /**
  * @author Pavel Romanov 09.03.2023
  */
 
+@Slf4j
 public class VkWallTest extends BaseTest {
-    private static final String EMAIL_KEY = "login";
-    private static final String PASSWORD_KEY = "password";
-
     @Test(dataProviderClass = DataProviderUtil.class, dataProvider = "testData")
     public void wallTest(String textLength, String owner, String imagePath) {
-        EmailPage emailPage = new EmailPage();
-        Assert.assertTrue(emailPage.isMainPageDisplayed(), "Страница авторизации не открылась");
+        log.info("Открываем и проверяем открытие страницы ввода email.");
+        VkTestSteps.checkEmailPage();
 
-        emailPage.enterEmail(ConfigUtil.getCredentials(EMAIL_KEY));
-        emailPage.clickSignInBtn();
-        PasswordPage passwordPage = new PasswordPage();
-        Assert.assertTrue(passwordPage.isPasswordPageDisplayed(), "Страница для ввода пароля не открылась.");
+        log.info("Вводим email и нажимаем кнопку входа.");
+        VkTestSteps.inputEmail();
+        VkTestSteps.confirmEmail();
 
-        passwordPage.enterPassword(ConfigUtil.getCredentials(PASSWORD_KEY));
-        passwordPage.clickSubmitBtn();
+        log.info("Открываем и проверяем открытие страницы ввода пароля.");
+        VkTestSteps.checkPassportPage();
 
-        FeedPage feedPage = new FeedPage();
-        Assert.assertTrue(feedPage.isFeedPageDisplayed(), "Лента с новостями не открылась.");
+        log.info("Вводим пароль и нажимаем кнопку подтверждения.");
+        VkTestSteps.inputPassword();
+        VkTestSteps.confirmPassword();
 
-        feedPage.clickMyPageLink();
-        ProfilePage profilePage = new ProfilePage();
-        Assert.assertTrue(profilePage.isProfilePageDisplayed(), "Страница профиля не открылась.");
+        log.info("Открываем и проверяем открытие страницы новостей.");
+        VkTestSteps.checkFeedPage();
 
+        log.info("Переходим на страницу профиля и проверяем ее открытие.");
+        VkTestSteps.goToProfilePage();
+        VkTestSteps.checkProfilePage();
+
+        log.info("Создаем запись на стене и проверяем ее автора и текст.");
         String postText = DataGeneratorUtil.generateRandomString(Integer.valueOf(textLength));
-        int wallPostId = VkApiUtils.createWallPost(owner, postText);
-        Assert.assertTrue(profilePage.isPostOwnerCorrect(owner,  String.valueOf(wallPostId)),
-                "Запись не появилась или пользователь не корректен.");
-        Assert.assertTrue(profilePage.isPostTextCorrect(postText), "Текст записи не соответствует ожидаемому.");
+        int wallPostId = ProjectVkApiUtil.createWallPost(owner, postText);
+        VkTestSteps.checkWallPostOwner(owner, String.valueOf(wallPostId));
+        VkTestSteps.checkWallPostText(postText);
 
+        log.info("Меняем текст и добавляем фото на созданную запись, проверяем изменения.");
         postText = DataGeneratorUtil.generateRandomString(Integer.valueOf(textLength));
-        String mediaId = VkApiUtils.uploadPhotoOnServer(imagePath);
-        VkApiUtils.editPost(postText, owner, String.valueOf(wallPostId), mediaId);
-        Assert.assertTrue(profilePage.isPostTextCorrect(postText), "Текст записи не изменился.");
-        Assert.assertTrue(profilePage.isPostPhotoCorrect(mediaId), "Ожидаемая и фактическая картинка не одинаковые.");
+        String mediaId = ProjectVkApiUtil.savePhotoOnServer(imagePath);
+        ProjectVkApiUtil.editPost(postText, owner, String.valueOf(wallPostId), mediaId);
+        VkTestSteps.checkWallPostText(postText);
+        VkTestSteps.checkWallPostPhoto(mediaId);
 
-        int comment_id = VkApiUtils.addComment(DataGeneratorUtil.generateRandomString(Integer.valueOf(textLength)),
+        log.info("Добавляем комментарий к созданной записи и проверяем его автора.");
+        int comment_id = ProjectVkApiUtil.addComment(DataGeneratorUtil.generateRandomString(Integer.valueOf(textLength)),
                 wallPostId, owner);
-        Assert.assertTrue(profilePage.isCommentCorrect(owner, String.valueOf(comment_id)),
-                "Комментарий не добавился или пользователь неправильный.");
+        VkTestSteps.checkWallPostCommentOwner(owner, String.valueOf(comment_id));
 
-        profilePage.clickLikeBtn();
-        Assert.assertTrue(VkApiUtils.isLikeUserCorrect(wallPostId, owner),
-                "Лайк не поставлен или пользователь некорректен.");
+        log.info("Добавляем отметку лайка и проверяем его автора.");
+        VkTestSteps.like();
+        VkTestSteps.checkLikeOwner(wallPostId, owner);
 
-        VkApiUtils.deletePost(wallPostId, owner);
-        Assert.assertFalse(profilePage.isPostDeleted(), "Запись не удалилась.");
-        VkApiUtils.deleteAddedPhoto(owner, mediaId);
+        log.info("Удаляем созданную запись на стене и проверяем, что ее нет.");
+        ProjectVkApiUtil.deletePost(wallPostId, owner);
+        VkTestSteps.checkWallPostDeleted();
+        ProjectVkApiUtil.deleteAddedPhoto(owner, mediaId);
     }
 }

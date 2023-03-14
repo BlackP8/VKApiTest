@@ -1,4 +1,4 @@
-package universaltools;
+package restframework.universalutils;
 
 /**
  * @author Pavel Romanov 14.02.2023

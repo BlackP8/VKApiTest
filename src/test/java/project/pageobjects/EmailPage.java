@@ -22,7 +22,7 @@ public class EmailPage extends Form {
         super(By.xpath(MAIN_PAGE_IDENTIFIER), MAIN_PAGE_IDENTIFIER_NAME);
     }
 
-    public boolean isMainPageDisplayed() {
+    public boolean isEmailPageDisplayed() {
         return this.state().isExist();
     }
 

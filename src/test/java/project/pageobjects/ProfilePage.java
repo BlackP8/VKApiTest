@@ -50,12 +50,16 @@ public class ProfilePage extends Form {
         return postAttach.getAttribute(PHOTO_ID_PARAM_NAME).contains(photoId);
     }
 
-    public boolean isCommentCorrect(String ownerId, String comment_id) {
-        String id = String.format(POST_ID_SAMPLE, ownerId, comment_id);
+    private void clickShowCommentsLink() {
         showCommentsLink.state().waitForDisplayed();
         if (showCommentsLink.state().isDisplayed()) {
             showCommentsLink.click();
         }
+    }
+
+    public boolean isCommentCorrect(String ownerId, String comment_id) {
+        String id = String.format(POST_ID_SAMPLE, ownerId, comment_id);
+        clickShowCommentsLink();
         getElementFactory().getTextBox(By.id(id), "").state().waitForDisplayed();
         return getElementFactory().getTextBox(By.id(id), "").state().isDisplayed();
     }

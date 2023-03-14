@@ -1,4 +1,4 @@
-package universaltools;
+package restframework.universalutils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -32,8 +32,7 @@ public class ConfigUtil {
 
     private static JSONObject setJSONObject(JSONObject object, String pathToFile) {
         try(BufferedReader reader = new BufferedReader(new FileReader(pathToFile))) {
-            Object obj = parser.parse(reader);
-            object = (JSONObject) obj;
+            object = (JSONObject) parser.parse(reader);
         }
         catch (IOException | ParseException e) {
             log.error(e.getMessage());
