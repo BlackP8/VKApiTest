@@ -12,7 +12,6 @@ import org.openqa.selenium.By;
 public class PasswordPage extends Form {
     private static final String PASSWORD_PAGE_IDENTIFIER = "//*[contains(@class, 'VKIDPanel')]";
     private static final String PASSWORD_PAGE_IDENTIFIER_NAME = "password_input_block";
-
     private final ITextBox passwordTextBox = getElementFactory().getTextBox(By.xpath("//*[@type='password']"),
             "password_text_box");
     private final IButton submitBtn = getElementFactory().getButton(By.xpath("//*[@type='submit']"),

@@ -9,13 +9,13 @@ import org.openqa.selenium.By;
  */
 
 public class FeedPage extends Form {
-    private static final String FEED_PAGE_IDENTIFIER = "//*[@id='main_feed']";
+    private static final String FEED_PAGE_IDENTIFIER = "main_feed";
     private static final String FEED_PAGE_IDENTIFIER_NAME = "feed_block";
 
-    private final ILink myPageLink = getElementFactory().getLink(By.xpath("//*[@id='l_pr']"), "my_page_link");
+    private final ILink myPageLink = getElementFactory().getLink(By.id("l_pr"), "my_page_link");
 
     public FeedPage() {
-        super(By.xpath(FEED_PAGE_IDENTIFIER), FEED_PAGE_IDENTIFIER_NAME);
+        super(By.id(FEED_PAGE_IDENTIFIER), FEED_PAGE_IDENTIFIER_NAME);
     }
 
     public boolean isFeedPageDisplayed() {

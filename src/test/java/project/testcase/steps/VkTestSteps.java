@@ -2,12 +2,12 @@ package project.testcase.steps;
 
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Assert;
-import project.apiutil.ProjectVkApiUtil;
+import project.apiutil.ProjectApiUtil;
+import project.models.Like;
 import project.pageobjects.EmailPage;
 import project.pageobjects.FeedPage;
 import project.pageobjects.PasswordPage;
 import project.pageobjects.ProfilePage;
-import restframework.universalutils.ConfigUtil;
 
 /**
  * @author Pavel Romanov 13.03.2023
@@ -15,9 +15,6 @@ import restframework.universalutils.ConfigUtil;
 
 @Slf4j
 public class VkTestSteps {
-    private static final String EMAIL_KEY = "login";
-    private static final String PASSWORD_KEY = "password";
-
     private static EmailPage emailPage = new EmailPage();
     private static PasswordPage passwordPage = new PasswordPage();
     private static FeedPage feedPage = new FeedPage();
@@ -27,8 +24,8 @@ public class VkTestSteps {
         Assert.assertTrue(emailPage.isEmailPageDisplayed(), "Страница авторизации не открылась");
     }
 
-    public static void inputEmail() {
-        emailPage.enterEmail(ConfigUtil.getCredentials(EMAIL_KEY));
+    public static void inputEmail(String email) {
+        emailPage.enterEmail(email);
     }
 
     public static void confirmEmail() {
@@ -39,8 +36,8 @@ public class VkTestSteps {
         Assert.assertTrue(passwordPage.isPasswordPageDisplayed(), "Страница для ввода пароля не открылась.");
     }
 
-    public static void inputPassword() {
-        passwordPage.enterPassword(ConfigUtil.getCredentials(PASSWORD_KEY));
+    public static void inputPassword(String password) {
+        passwordPage.enterPassword(password);
     }
 
     public static void confirmPassword() {
@@ -69,8 +66,8 @@ public class VkTestSteps {
                 "Текст записи не соответствует ожидаемому.");
     }
 
-    public static void checkWallPostPhoto(String mediaId) {
-        Assert.assertTrue(profilePage.isPostPhotoCorrect(mediaId),
+    public static void checkWallPostPhoto(String imagePath, String photoId) {
+        Assert.assertTrue(profilePage.isPostPhotoCorrect(imagePath, photoId),
                 "Ожидаемая и фактическая картинка не одинаковые.");
     }
 
@@ -83,8 +80,8 @@ public class VkTestSteps {
         profilePage.clickLikeBtn();
     }
 
-    public static void checkLikeOwner(int wallPostId, String owner) {
-        Assert.assertTrue(ProjectVkApiUtil.isLikeUserCorrect(wallPostId, owner),
+    public static void checkLikeOwner(Like like, int likedValue) {
+        Assert.assertTrue(Integer.valueOf(ProjectApiUtil.getLiked(like).getLiked()) == likedValue,
                 "Лайк не поставлен или пользователь некорректен.");
     }
 

@@ -5,13 +5,14 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.simple.JSONObject;
 import java.io.File;
+import java.util.Map;
 
 /**
  * Универсальный класс для выполнения GET и POST запросов и получения их результата
  * @author Pavel Romanov 01.03.2023
  */
 
-public class FrameVkApiUtil {
+public class FrameApiUtil {
     private static final String CONTENT_TYPE_PARAM_NAME = "Content-Type";
 
     /**
@@ -25,11 +26,13 @@ public class FrameVkApiUtil {
 
     /**
      * Метод для выполнения GET запроса с параметром
-     * @param url
-     * @param param
+     * @param baseUrl
+     * @param params
+     * @param endPoint
      */
-    public static Response getWithParam(String url, String param, String paramName) {
-        Response response = RestAssured.given().param(paramName, param).get(url);
+    public static Response getWithParam(String baseUrl, Map<String, String> params, String endPoint) {
+        RestAssured.baseURI = baseUrl;
+        Response response = RestAssured.given().queryParams(params).get(endPoint);
         return response;
     }
 
@@ -51,7 +54,7 @@ public class FrameVkApiUtil {
      * @param baseURL
      * @param file
      */
-    public static Response executePostWithFile(String baseURL, File file) {
+    public static Response postWithFile(String baseURL, File file) {
         Response response = RestAssured.given().multiPart(file).post(baseURL);
         return response;
     }

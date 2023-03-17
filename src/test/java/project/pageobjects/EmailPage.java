@@ -10,16 +10,14 @@ import org.openqa.selenium.By;
  */
 
 public class EmailPage extends Form {
-    private static final String MAIN_PAGE_IDENTIFIER = "//*[@id = 'index_login']";
+    private static final String MAIN_PAGE_IDENTIFIER = "index_login";
     private static final String MAIN_PAGE_IDENTIFIER_NAME = "login_input_block";
-
-    private final ITextBox emailTextBox = getElementFactory().getTextBox(By.xpath("//*[@id = 'index_email']"),
-            "email_text_box");
+    private final ITextBox emailTextBox = getElementFactory().getTextBox(By.id("index_email"), "email_text_box");
     private final IButton signInBtn = getElementFactory().getButton(By.xpath("//*[contains(@class, 'signInButton')]"),
             "sign_in_btn");
 
     public EmailPage() {
-        super(By.xpath(MAIN_PAGE_IDENTIFIER), MAIN_PAGE_IDENTIFIER_NAME);
+        super(By.id(MAIN_PAGE_IDENTIFIER), MAIN_PAGE_IDENTIFIER_NAME);
     }
 
     public boolean isEmailPageDisplayed() {
